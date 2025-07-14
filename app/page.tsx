@@ -120,7 +120,6 @@ const MagneticButton = ({ children, className, ...props }) => {
 export default function HomePage() {
   const [darkMode, setDarkMode] = useState(false)
   const [email, setEmail] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
   const { scrollYProgress } = useScroll()
   const controls = useAnimation()
 
@@ -136,35 +135,30 @@ export default function HomePage() {
     }
   }, [darkMode])
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000)
-    return () => clearTimeout(timer)
-  }, [])
-
   const simulations = [
     {
-      icon: <Atom className="w-8 h-8" />,
+      icon: <img src="https://phet.colorado.edu/sims/html/quantum-measurement/latest/quantum-measurement-900.png" alt="Simulation" />,
       title: "Quantum Measurement",
       description: "Explore quantum superposition and wave function collapse through interactive measurements.",
       gradient: "from-blue-400 to-purple-600",
       stats: "15K+ students",
     },
     {
-      icon: <Zap className="w-8 h-8" />,
+      icon: <img src="https://phet.colorado.edu/sims/html/rutherford-scattering/latest/rutherford-scattering-900.png" alt="Simulation" />,
       title: "Rutherford Scattering",
       description: "Visualize alpha particle trajectories and discover atomic structure.",
       gradient: "from-purple-400 to-pink-600",
       stats: "12K+ students",
     },
     {
-      icon: <FlaskConical className="w-8 h-8" />,
+      icon: <img src="https://phet.colorado.edu/sims/html/molecule-polarity/latest/molecule-polarity-900.png" alt="Simulation" />,
       title: "Molecule Polarity",
       description: "Understand molecular geometry and electronegativity differences.",
       gradient: "from-green-400 to-blue-600",
       stats: "18K+ students",
     },
     {
-      icon: <Waves className="w-8 h-8" />,
+      icon: <img src="https://phet.colorado.edu/sims/html/wave-interference/latest/wave-interference-900.png" alt="Simulation" />,
       title: "Wave Interference",
       description: "Observe constructive and destructive interference patterns in real-time.",
       gradient: "from-cyan-400 to-teal-600",
@@ -206,35 +200,6 @@ export default function HomePage() {
     { icon: <Sparkles className="w-8 h-8" />, label: "Universities", value: 200 },
   ]
 
-  // Loading screen
-  if (isLoading) {
-    return (
-      <div className="fixed inset-0 bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center z-50">
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <motion.div
-            className="w-20 h-20 mx-auto mb-4 bg-white rounded-full flex items-center justify-center"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-          >
-            <Atom className="w-10 h-10 text-blue-600" />
-          </motion.div>
-          <motion.h2
-            className="text-2xl font-bold text-white"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-          >
-            Loading SimuLab...
-          </motion.h2>
-        </motion.div>
-      </div>
-    )
-  }
-
   return (
     <div className={`min-h-screen transition-colors duration-300 ${darkMode ? "dark" : ""}`}>
       {/* Navigation */}
@@ -246,18 +211,10 @@ export default function HomePage() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <motion.div className="flex items-center space-x-2" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <motion.div
-                className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center"
-                whileHover={{ rotate: 180 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Atom className="w-5 h-5 text-white" />
-              </motion.div>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                SimuLab
-              </span>
-            </motion.div>
+            <div className="flex items-center space-x-2">
+              <img src="/Openworks.svg" alt="Stimul8 Logo" className="w-full h-full object-contain" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent -ml-20 flex items-center">Stimul8</span>
+            </div>
 
             <div className="flex items-center space-x-4">
               {["Simulations", "About", "Contact"].map((item, index) => (
@@ -302,16 +259,7 @@ export default function HomePage() {
           }}
           transition={{ duration: 8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
         />
-        <motion.div
-          className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-purple-400/20 to-pink-600/20 rounded-full blur-3xl"
-          animate={{
-            x: [0, -80, 0],
-            y: [0, 30, 0],
-            scale: [1, 0.8, 1],
-          }}
-          transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-        />
-
+      
         <motion.div
           className="relative z-10 text-center max-w-4xl mx-auto px-4"
           style={{ y: heroY, opacity: heroOpacity, scale: heroScale }}
@@ -322,33 +270,7 @@ export default function HomePage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="mb-8"
           >
-            <motion.div
-              className="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center relative"
-              whileHover={{ scale: 1.1 }}
-            >
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-              >
-                <Atom className="w-12 h-12 text-white" />
-              </motion.div>
-              {/* Orbiting particles */}
-              {[...Array(3)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-2 h-2 bg-white rounded-full"
-                  animate={{ rotate: 360 }}
-                  transition={{
-                    duration: 3 + i,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "linear",
-                  }}
-                  style={{
-                    transformOrigin: `${40 + i * 10}px center`,
-                  }}
-                />
-              ))}
-            </motion.div>
+        
           </motion.div>
 
           <motion.h1
@@ -524,79 +446,80 @@ export default function HomePage() {
                 }}
                 className="group perspective-1000"
               >
-                <Card className="h-full bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-0 shadow-lg hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
-                  {/* Animated background gradient */}
-                  <motion.div
-                    className={`absolute inset-0 bg-gradient-to-r ${sim.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
-                    initial={{ scale: 0, rotate: 180 }}
-                    whileHover={{ scale: 1, rotate: 0 }}
-                    transition={{ duration: 0.6 }}
-                  />
+                <Card className="h-full bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-0 shadow-lg hover:shadow-2xl transition-all duration-500 relative overflow-hidden group">
+  {/* Animated background gradient */}
+  <motion.div
+    className={`absolute inset-0 bg-gradient-to-r ${sim.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+    initial={{ scale: 0, rotate: 180 }}
+    whileHover={{ scale: 1, rotate: 0 }}
+    transition={{ duration: 0.6 }}
+  />
 
-                  <CardContent className="p-6 relative z-10">
-                    <motion.div
-                      className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${sim.gradient} flex items-center justify-center mb-4 text-white relative`}
-                      whileHover={{
-                        scale: 1.15,
-                        rotate: [0, -10, 10, 0],
-                        transition: { duration: 0.6 },
-                      }}
-                    >
-                      {sim.icon}
-                      {/* Pulse effect */}
-                      <motion.div
-                        className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${sim.gradient}`}
-                        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
-                        transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                      />
-                    </motion.div>
+  <CardContent className="p-6 relative z-10">
+    <motion.div
+      className={`w-full h-40 rounded-2xl bg-gradient-to-r ${sim.gradient} flex items-center justify-center mb-4 relative overflow-hidden`}
+      whileHover={{
+        scale: 1.15,
+        rotate: [0, -10, 10, 0],
+        transition: { duration: 0.6 },
+      }}
+    >
+      {sim.icon}
+      {/* Pulse effect */}
+      <motion.div
+        className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${sim.gradient}`}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
+        transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+      />
+    </motion.div>
 
-                    <motion.h3
-                      className="text-xl font-bold mb-3 text-gray-900 dark:text-white"
-                      whileHover={{ x: 5 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {sim.title}
-                    </motion.h3>
+    <motion.h3
+      className="text-xl font-bold mb-3 text-gray-900 dark:text-white"
+      whileHover={{ x: 5 }}
+      transition={{ duration: 0.2 }}
+    >
+      {sim.title}
+    </motion.h3>
 
-                    <motion.p
-                      className="text-gray-600 dark:text-gray-300 mb-4"
-                      initial={{ opacity: 0.8 }}
-                      whileHover={{ opacity: 1 }}
-                    >
-                      {sim.description}
-                    </motion.p>
+    <motion.p
+      className="text-gray-600 dark:text-gray-300 mb-4"
+      initial={{ opacity: 0.8 }}
+      whileHover={{ opacity: 1 }}
+    >
+      {sim.description}
+    </motion.p>
 
-                    <motion.div
-                      className="text-sm text-gray-500 dark:text-gray-400 mb-6"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 + 0.5 }}
-                    >
-                      {sim.stats}
-                    </motion.div>
+    <motion.div
+      className="text-sm text-gray-500 dark:text-gray-400 mb-6"
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.1 + 0.5 }}
+    >
+      {sim.stats}
+    </motion.div>
 
-                    <MagneticButton className="w-full">
-                      <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full relative overflow-hidden group">
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
-                          initial={{ x: "-100%" }}
-                          whileHover={{ x: "100%" }}
-                          transition={{ duration: 0.6 }}
-                        />
-                        <span className="relative z-10 flex items-center justify-center">
-                          Launch Simulation
-                          <motion.div
-                            animate={{ x: [0, 5, 0] }}
-                            transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
-                          >
-                            <ArrowRight className="w-4 h-4 ml-2" />
-                          </motion.div>
-                        </span>
-                      </Button>
-                    </MagneticButton>
-                  </CardContent>
-                </Card>
+    <MagneticButton className="w-full">
+      <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full relative overflow-hidden group">
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
+          initial={{ x: "-100%" }}
+          whileHover={{ x: "100%" }}
+          transition={{ duration: 0.6 }}
+        />
+        <span className="relative z-10 flex items-center justify-center">
+          Launch Simulation
+          <motion.div
+            animate={{ x: [0, 5, 0] }}
+            transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+          >
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </motion.div>
+        </span>
+      </Button>
+    </MagneticButton>
+  </CardContent>
+</Card>
+
               </motion.div>
             ))}
           </div>
@@ -848,7 +771,7 @@ export default function HomePage() {
               transition={{ duration: 0.6, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              See what leading educators say about SimuLab
+              See what leading educators say about Stimul8
             </motion.p>
           </motion.div>
 
@@ -1046,9 +969,9 @@ export default function HomePage() {
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <Atom className="w-5 h-5 text-white" />
+                  <img src="/OpenWorks.svg" alt="Stimul8 Logo" className="w-8 h-8" />
                 </motion.div>
-                <span className="text-xl font-bold">SimuLab</span>
+                <span className="text-xl font-bold">Stimul8 </span>
               </motion.div>
               <p className="text-gray-400">Making science accessible through interactive simulations.</p>
             </motion.div>
@@ -1133,7 +1056,7 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 0.8 }}
             viewport={{ once: true }}
           >
-            <p>&copy; 2024 SimuLab. All rights reserved.</p>
+            <p>&copy; 2024 Stimul8. All rights reserved.</p>
           </motion.div>
         </div>
       </footer>
